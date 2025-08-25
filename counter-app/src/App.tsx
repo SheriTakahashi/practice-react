@@ -1,24 +1,25 @@
 import React, { useState } from "react";
+import "./index.css";
 
 function App() {
-  const [count, setCount] = useState(0);
+  // このstate一つで二つのカウントの値を管理できるようにしてください
+  const [count1, count2, setCount1, setCount2] = useState(0);
 
-  const handleClick = () => {
-    setCount(count + 1);
+  const handleClick1 = () => {
+    setCount1(count + 1);
+  };
+
+  const handleClick2 = () => {
+    setCount2(count + 1);
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <h1>{count}</h1>
-      <button onClick={handleClick}>+</button>
+    <div style={{}}>
+      <h1>値1 : {count1}</h1>
+      <button onClick={handleClick1}>+</button>
+
+      <h1>値2 : {count2}</h1>
+      <button onClick={handleClick2}>+</button>
     </div>
   );
 }
