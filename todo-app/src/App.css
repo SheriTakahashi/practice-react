@@ -1,0 +1,69 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+input {
+  border-radius: 8px;
+  border: none;
+  padding: 6px 16px;
+}
+
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 4px 16px;
+  margin: 0px 2px;
+}
+
+button:hover {
+  background-color: #87cefa;
+  color: #fff;
+  cursor: pointer;
+}
+
+.input-area {
+  background-color: #ffc0cb;
+  width: 400px;
+  height: 30px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.incomplete-area {
+  border: 2px solid #4682b4;
+  width: 400px;
+  min-height: 200px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+}
+
+.complete-area {
+  border: 2px solid #db7093;
+  width: 400px;
+  min-height: 200px;
+  padding: 8px;
+  margin: 8px;
+  border-radius: 8px;
+  background-color: #ffc0cb;
+}
+
+.title {
+  text-align: center;
+  margin-top: 0;
+  font-weight: bold;
+  color: #696969;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+}
+
+.todo-item {
+  margin: 6px;
+}
