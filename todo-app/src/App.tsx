@@ -1,95 +1,74 @@
 import { useState } from "react";
+import { InputTodo } from "./components/InputTodo.jsx";
+import { IncompleteTodos } from "./components/IncompleteTodos.jsx";
+import { CompleteTodos } from "./components/CompleteTodos.jsx";
 import "./App.css";
 
 export const App = () => {
   const [todoText, setTodoText] = useState("");
-  const [incomplateTodos, setIncomplateTodos] = useState([]);
-  const [complateTodos, setComplateTodos] = useState([]);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   //入力欄に文字が入った時の処理
   const onChangeTodoText = (event) => setTodoText(event.target.value);
   //追加ボタンを押した時の処理
   const onClickAdd = () => {
     if (todoText === "") return; //入力欄に何も入ってない時は追加ボタンは反応しない
-    const newTodos = [...incomplateTodos, todoText]; //スプレット構文
-    setIncomplateTodos(newTodos); //更新する
+    const newTodos = [...incompleteTodos, todoText]; //スプレット構文
+    setIncompleteTodos(newTodos); //更新する
     setTodoText(""); //追加後空文字にする
   };
 
   //削除ボタンを押した時の処理
   const onClickDelete = (index) => {
-    const newTodos = [...incomplateTodos];
+    const newTodos = [...incompleteTodos];
     //特定の配列の中から何番目の要素を何個削除する
     newTodos.splice(index, 1);
-    setIncomplateTodos(newTodos);
+    setIncompleteTodos(newTodos);
   };
 
   //完了ボタンを押した時の処理
-  const onClicComplate = (index) => {
-    const newIncomplateTodos = [...incomplateTodos];
+  const onClickComplete = (index) => {
+    const newIncompleteTodos = [...incompleteTodos];
     //特定の配列の中から何番目の要素を何個削除する
-    newIncomplateTodos.splice(index, 1);
+    newIncompleteTodos.splice(index, 1);
     //配列の中から指定したインデックスを指定する
-    const newComplateTodos = [...complateTodos, incomplateTodos[index]];
-    setIncomplateTodos(newIncomplateTodos);
-    setComplateTodos(newComplateTodos);
+    const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    setIncompleteTodos(newIncompleteTodos);
+    setCompleteTodos(newCompleteTodos);
   };
 
   //戻すボタンを押した時の処理
-  const onClicBack = (index) => {
-    const newComplateTodos = [...complateTodos];
+  const onClickBack = (index) => {
+    const newCompleteTodos = [...completeTodos];
     //特定の配列の中から何番目の要素を何個削除する
-    newComplateTodos.splice(index, 1);
+    newCompleteTodos.splice(index, 1);
     //配列の中から指定したインデックスを指定する
-    const newIncomplateTodos = [...incomplateTodos, complateTodos[index]];
-    setComplateTodos(newComplateTodos);
-    setIncomplateTodos(newIncomplateTodos);
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    setCompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
+
+  //上限の表示と機能で重複しないために定数を定義
+  const isMaxLimitIncomplateTodos = incompleteTodos.length >= 5;
 
   return (
     <>
-      <div className="input-area">
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={onChangeTodoText}
-        />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
-      <div className="incomplete-area">
-        <p className="title">未完了</p>
-        <ul>
-          {/*配列ループしながら新しい要素を一つずつ返却*/}
-          {incomplateTodos.map((todo, index) => {
-            return (
-              <li key={todo}>
-                <div className="list-row">
-                  <p className="todo-list">{todo}</p>
-                  <button onClick={() => onClicComplate(index)}>完了</button>
-                  {/*アロー関数を追記して関数を生成してあげる必要がある*/}
-                  <button onClick={() => onClickDelete(index)}>削除</button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="complete-area">
-        <p className="title">完了</p>
-        <ul>
-          {/*配列ループしながら新しい要素を一つずつ返却*/}
-          {complateTodos.map((todo, index) => {
-            return (
-              <li key={todo}>
-                <div className="list-row">
-                  <p className="todo-list">{todo}</p>
-                  <button onClick={() => onClicBack(index)}>戻す</button>
-                </div>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+        disabled={isMaxLimitIncomplateTodos}
+      />
+      {isMaxLimitIncomplateTodos && (
+        <p style={{ color: "#ff8c00" }}>登録できるTODOは5個までだよ！</p>
+      )}
+      <IncompleteTodos
+        todos={incompleteTodos}
+        onClickComplete={onClickComplete}
+        onClickDelete={onClickDelete}
+      />
+      <CompleteTodos todos={completeTodos} onClickBack={onClickBack} />
     </>
   );
 };
